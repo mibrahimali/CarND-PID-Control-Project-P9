@@ -45,10 +45,13 @@ More soficticated tuning algorithms can be used such as ( Gradients decent, Nicl
 
 As for throttle control a P controller was developed only to reduce max. speed in case of sharp curved road as a heleper control to the pid control 
 
-Final Output video of the tunned Controller can be found on [youtube](https://youtu.be/k5SKKW6S-xk)
+Final Output video of the tunned Controller can be found on [youtube](https://youtu.be/BkgaQnuVXmI)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/BkgaQnuVXmI" frameborder="0" allowfullscreen></iframe>
 
 
 P only controller effect:
+
 ![](./P_controller_effect.gif)
 
 ## Dependencies
