@@ -3,6 +3,54 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+## Autonomous Vehicle Steering Control Project
+
+Implement a PID controller for steering and throtle control of a vehicle in a simulator to successfully autonomously navigate itself around any track while maintaining lane centering approach, for this project a simple PID controller has been implemented for steering wheel and throttle action based on cross track error.
+
+### Project Steps
+1. Implement a Basic PID controller Lib.
+2. Tune PID controller for Steering angle predection based on cross track error.
+
+## PID Controller 
+
+A proportional–integral–derivative controller (PID controller or three term controller) is a control loop feedback mechanism widely used in industrial control systems and a variety of other applications requiring continuously modulated control. A PID controller continuously calculates an error value e(t) as the difference between a desired setpoint and a measured process variable and applies a correction based on proportional, integral, and derivative terms (denoted P, I, and D respectively) which give their name to the controller.
+
+### Proportional (P) Term Effect:
+
+The main infulancer in the controller terms is the P term as it directly generating a counter action to the cross track error to steer the vehicle back to the lane center. this controller has a side effect that while increasing the gain the vehicle tend to have oscilations around the lane center that can lead to unstable behaviour due to overshoot in switching from side to another of the road.
+
+### Integral (I) Term Effect:
+
+The Integral term play a role in removing the steady state error due to error in car models such as a mechanicla drift in wheels or steering actuator. also has the same side effect of P controller as inceasing this gain can tend to overshooting set point, another side effect widely known is the integral windup effect that as its acutally an error accumelator it tends to saturate its outputs.
+
+### Derivative (D) Term Effect:
+
+The derivative controller take  a counter measurements to the aggrission of P controller as it monitor the change in error between current state and desired one. and act as a reducing factor to overcome possible overshooting this set points.
+
+## PID controller Gains Tunning: 
+
+Manual tunning wass used for finding the best gains for the controller based on the following steps
+
+1. seting all coefficients to zero.
+2. increasing Kp gain untill noticing a sustainable oscilation.
+3. increasing Kd gain to over dump these oscilations.
+4. increasing Ki gain incase of any steady state error due to drift in the car wheels.
+
+Finally Integral part of controller was neglected. and the final gains for the steering PD controller are:
+* Kp = 0.12
+* Ki = 0
+* Kd = 4.0
+
+More soficticated tuning algorithms can be used such as ( Gradients decent, Niclos-ziggler and Genetic Algorithms). but due to insuffiecnt time, manual tuning was enough for this simple case
+
+As for throttle control a P controller was developed only to reduce max. speed in case of sharp curved road as a heleper control to the pid control 
+
+Final Output video of the tunned Controller can be found on [youtube](https://youtu.be/k5SKKW6S-xk)
+
+
+P only controller effect:
+![](./P_controller_effect.gif)
+
 ## Dependencies
 
 * cmake >= 3.5
@@ -35,58 +83,3 @@ There's an experimental patch for windows in this [PR](https://github.com/udacit
 3. Compile: `cmake .. && make`
 4. Run it: `./pid`. 
 
-## Editor Settings
-
-We've purposefully kept editor configuration files out of this repo in order to
-keep it as simple and environment agnostic as possible. However, we recommend
-using the following settings:
-
-* indent using spaces
-* set tab width to 2 spaces (keeps the matrices in source code aligned)
-
-## Code Style
-
-Please (do your best to) stick to [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html).
-
-## Project Instructions and Rubric
-
-Note: regardless of the changes you make, your project must be buildable using
-cmake and make!
-
-More information is only accessible by people who are already enrolled in Term 2
-of CarND. If you are enrolled, see [the project page](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/f1820894-8322-4bb3-81aa-b26b3c6dcbaf/lessons/e8235395-22dd-4b87-88e0-d108c5e5bbf4/concepts/6a4d8d42-6a04-4aa6-b284-1697c0fd6562)
-for instructions and the project rubric.
-
-## Hints!
-
-* You don't have to follow this directory structure, but if you do, your work
-  will span all of the .cpp files here. Keep an eye out for TODOs.
-
-## Call for IDE Profiles Pull Requests
-
-Help your fellow students!
-
-We decided to create Makefiles with cmake to keep this project as platform
-agnostic as possible. Similarly, we omitted IDE profiles in order to we ensure
-that students don't feel pressured to use one IDE or another.
-
-However! I'd love to help people get up and running with their IDEs of choice.
-If you've created a profile for an IDE that you think other students would
-appreciate, we'd love to have you add the requisite profile files and
-instructions to ide_profiles/. For example if you wanted to add a VS Code
-profile, you'd add:
-
-* /ide_profiles/vscode/.vscode
-* /ide_profiles/vscode/README.md
-
-The README should explain what the profile does, how to take advantage of it,
-and how to install it.
-
-Frankly, I've never been involved in a project with multiple IDE profiles
-before. I believe the best way to handle this would be to keep them out of the
-repo root to avoid clutter. My expectation is that most profiles will include
-instructions to copy files to a new location to get picked up by the IDE, but
-that's just a guess.
-
-One last note here: regardless of the IDE used, every submitted project must
-still be compilable with cmake and make./
